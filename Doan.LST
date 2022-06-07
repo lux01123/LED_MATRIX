@@ -1,0 +1,124 @@
+A51 MACRO ASSEMBLER  DOAN                                                                 12/09/2021 11:19:48 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02
+OBJECT MODULE PLACED IN Doan.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Doan.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+  00B0                 1     D_S    BIT P3.0 
+  00B1                 2     SHCP   BIT P3.1         
+  00B2                 3     STCP   BIT P3.2 
+  REG                  4     CON_TRO EQU R0
+0000                   5     ORG 00H           
+0000                   6     MAIN :                       
+0000 90005B            7                       MOV DPTR,#MALED
+0003 7900              8                       MOV R1,#0 
+0005 7B05              9                   MOV R3,#5
+0007                  10     CHAY:        
+0007 120018           11               LCALL DULIEU
+000A 120028           12               LCALL QUET
+000D DBF8             13               DJNZ R3,CHAY
+000F 7B05             14               MOV R3,#5
+0011 09               15               INC R1
+0012 B940F2           16               CJNE R1,#64,CHAY                                                      
+0015 020000           17               LJMP MAIN
+0018                  18     DULIEU:
+0018 C001             19               PUSH 01H
+001A 7870             20               MOV R0,#70H    
+001C 7A20             21               MOV R2,#32                
+001E                  22     LAPL_01:  
+001E E9               23               MOV A,R1                                                  
+001F 93               24               MOVC A, @A+DPTR                                      
+0020 F6               25               MOV @R0,A      
+0021 08               26               INC R0         
+0022 09               27               INC R1        
+0023 DAF9             28               DJNZ R2,LAPL_01
+0025 D001             29               POP 01H
+0027 22               30               RET
+                      31     ;***********************************************
+0028                  32     QUET:
+0028 7FFE             33               MOV R7,#11111110B  
+002A                  34     LAPHANG: 
+002A 7870             35               MOV CON_TRO,#70H
+002C C2B2             36               CLR STCP                 
+002E                  37     LAPCOT: 
+002E C2B1             38               CLR SHCP           
+0030 E6               39               MOV A,@R0                             
+0031 C3               40               CLR C
+0032 33               41               RLC A                                                          
+0033 F6               42               MOV @R0,A                             
+0034 D2B1             43               SETB SHCP                                                     
+0036 92B0             44               MOV D_S,C                             
+0038 08               45               INC R0           
+0039 B891F2           46               CJNE R0,#91H,LAPCOT                   
+003C D2B2             47               SETB STCP                                             
+003E 8FA0             48               MOV P2,R7                                
+0040 12004E           49               LCALL DELAY
+0043 75A0FF           50               MOV P2,#0FFH                                   
+0046 D3               51                       SETB C
+0047 EF               52               MOV A,R7
+0048 33               53                       RLC A
+0049 FF               54                       MOV R7,A
+004A BFFFDD           55               CJNE R7,#0FFH,LAPHANG
+004D 22               56     RET
+                      57     ;******************************************* 
+004E                  58     DELAY: 
+A51 MACRO ASSEMBLER  DOAN                                                                 12/09/2021 11:19:48 PAGE     2
+
+004E 75090A           59               MOV 09H,#10
+0051                  60     M: 
+0051 7510C8           61               MOV 10H,# 200            
+0054 D510FD           62               DJNZ 10H,$   
+0057 D509F7           63               DJNZ 09H,M   
+                      64                    
+005A 22               65     RET
+005B                  66     MALED:
+005B 00000000         67     DB    000h,000h,000h,000h,000h,000h,000h,000h
+005F 00000000                
+0063 00000000         68     DB    000h,000h,000h,000h,000h,000h,000h,000h
+0067 00000000                
+006B 00000000         69     DB    000h,000h,000h,000h,000h,000h,000h,000h
+006F 00000000                
+0073 00000000         70     DB    000h,000h,000h,000h,000h,000h,000h,000h           
+0077 00000000                
+007B 00006689         71     DB        000h,000h,066h,089h,091h,062h,000h,000h           ;S
+007F 91620000                
+0083 003D4285         72     DB    000h,03Dh,042h,085h,081h,042h,03Ch,000h           ;Q
+0087 81423C00                
+008B 008080FF         73     DB    000h,080h,080h,0FFh,080h,080h,000h,000h           ;T
+008F 80800000                
+0093 00834428         74     DB        000h,083h,044h,028h,010h,0FFh,000h,000h               ;K
+0097 10FF0000                
+                      75     END
+A51 MACRO ASSEMBLER  DOAN                                                                 12/09/2021 11:19:48 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+CHAY . . . . . . .  C ADDR   0007H   A   
+CON_TRO. . . . . .    REG    R0          
+DELAY. . . . . . .  C ADDR   004EH   A   
+DULIEU . . . . . .  C ADDR   0018H   A   
+D_S. . . . . . . .  B ADDR   00B0H.0 A   
+LAPCOT . . . . . .  C ADDR   002EH   A   
+LAPHANG. . . . . .  C ADDR   002AH   A   
+LAPL_01. . . . . .  C ADDR   001EH   A   
+M. . . . . . . . .  C ADDR   0051H   A   
+MAIN . . . . . . .  C ADDR   0000H   A   
+MALED. . . . . . .  C ADDR   005BH   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+QUET . . . . . . .  C ADDR   0028H   A   
+SHCP . . . . . . .  B ADDR   00B0H.1 A   
+STCP . . . . . . .  B ADDR   00B0H.2 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
